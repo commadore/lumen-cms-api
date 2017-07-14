@@ -1,0 +1,23 @@
+docker-webserver-skycontent:
+  image: phpdockerio/nginx:latest
+  volumes:
+     - .:/var/www/skycontent
+     - ./nginx.conf:/etc/nginx/conf.d/default.conf
+  ports:
+  - "4321:80"
+  environment:
+  - APPLICATION_ENV=local
+  links:
+  - docker-php-fpm-skycontent
+  dns:
+  - 10.0.0.4
+
+docker-php-fpm-skycontent:
+  image: commadore/docker-php7.0-fpm:latest
+  volumes:
+   - .:/var/www/skycontent
+   - ./nginx.conf:/etc/nginx/conf.d/default.conf
+  environment:
+  - APPLICATION_ENV=local
+  dns:
+  - 10.0.0.4
