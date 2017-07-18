@@ -8,10 +8,10 @@ class Page extends Model
 {
 
 
-    public $timestamps = false;
+    public $timestamps = true;
 
     //
-    protected $fillable = ['site','route','name','title', 'footer', 'published'];
+    protected $fillable = ['site','route','name'];
 
      /**
      * Get the contents for the page.
@@ -28,4 +28,13 @@ class Page extends Model
     {
         return $this->hasMany('App\Metadata');
     }
+
+    /**
+    * Get the layout for the page.
+    */
+    public function layout()
+    {
+        return $this->hasOne('App\Layout');
+    }
+
 }

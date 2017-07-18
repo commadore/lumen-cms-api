@@ -2,25 +2,24 @@
 
 namespace App\Http\Controllers;
 
-use App\Content;
-use App\Http\Requests\PageRequest;
+use App\Http\Requests\LayoutRequest;
 use App\Layout;
-use App\Metadata;
+use App\Site;
+use App\Zone;
 use Illuminate\Http\Request;
-use App\Page;
 
-class PagesController extends Controller
+class LayoutsController extends Controller
 {
     /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
         //
-        $Page = Page::all();
-        return response()->json($Page);
+        $layouts = Layout::with('zones')->get();
+        return response()->json($layouts);
     }
 
     /**
@@ -32,9 +31,9 @@ class PagesController extends Controller
     public function show($id)
     {
         //
-        $page = Page::findOrfail($id);
-
-        return response()->json($page);
+        $layout = Layout::findOrfail($id);
+        $layout->zones = $layout->zones()->get();
+        return response()->json($layout);
 
     }
 
@@ -48,32 +47,27 @@ class PagesController extends Controller
     public function showByName($route, Request $request)
     {
         //
-        $page = Page::where('route', $route)->where('site', $request->header('site'))->get();
+        $layout = Layout::where('route', $route)->where('site', $request->header('site'))->get();
 
-        return response()->json($page);
+        return response()->json($layout);
 
     }
 
     /**
      * Store a newly created resource in storage.
      *
-     * @param  PageRequest  $request
+     * @param  LayoutRequest  $request
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
     {
         //
-        $site = Site::where('code', 'slotto')->first();
-        $layout = Layout::where('name', $request->json()->get('layout'))
-            ->where('site_id', $request->header('site'))->get();
+        $site = Site::where('code', 'slotto')->first();;
 
-        $page = new Page;
-        $page->site_id = $request->header('site');
-        $page->route = $request->json()->get('route');
-        $page->name = $request->json()->get('name');
-        $page->layout_id = $layout->id;
-        $page->save();
-
+        $layout = new Layout();
+        $layout->name = $request->json()->get('name');
+        $layout->site_id = $site->id;
+        $layout->save();
         return response()->json(['status' => 'success']);
         
     }
@@ -82,18 +76,14 @@ class PagesController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
+     * @param integer $id
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, $id)
     {
-
-        $page = new Page();
-        $page->site = $request->header('site');
-        $page->route = $request->json()->get('route');
-        $page->name = $request->json()->get('name');
-        $page->published = $request->json()->get('published');
-        $page->save();
+        $layout = Layout::findOrfail($id);
+        $layout->name = $request->json()->get('name');
+        $layout->save();
         return response()->json(['status' => 'success']);
     }
 
@@ -106,7 +96,7 @@ class PagesController extends Controller
     public function destroy($id)
     {
         //
-        if(Page::destroy($id)){
+        if(Layout::destroy($id)){
              return response()->json(['status' => 'success']);
         }
     }

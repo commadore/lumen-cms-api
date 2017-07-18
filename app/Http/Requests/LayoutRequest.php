@@ -4,11 +4,11 @@ namespace App\Http\Requests;
 
 use Illuminate\Http\Request;
 
-class PageRequest extends Request
+class LayoutRequest extends Request
 {
     public function authorize()
     {
-        return true;
+        return false;
     }
 
     /**
@@ -17,9 +17,7 @@ class PageRequest extends Request
     public function rules()
     {
         return [
-            'route' => 'required',
-            'name' => 'required',
-            'layout' => 'required',
+            'name' => 'required'
             ];
     }
 

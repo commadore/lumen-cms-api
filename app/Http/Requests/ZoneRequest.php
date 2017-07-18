@@ -4,7 +4,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Http\Request;
 
-class PageRequest extends Request
+class ZoneRequest extends Request
 {
     public function authorize()
     {
@@ -17,9 +17,7 @@ class PageRequest extends Request
     public function rules()
     {
         return [
-            'route' => 'required',
-            'name' => 'required',
-            'layout' => 'required',
+            'name' => 'required'
             ];
     }
 

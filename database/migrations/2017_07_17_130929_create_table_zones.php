@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class Pages extends Migration
+class CreateTableZones extends Migration
 {
     /**
      * Run the migrations.
@@ -13,14 +13,15 @@ class Pages extends Migration
      */
     public function up()
     {
-        //
-        Schema::create('pages', function (Blueprint $table) {
+        Schema::create('zones', function (Blueprint $table) {
             $table->increments('id');
-            $table->string('site');
-            $table->string('route');
+            $table->integer('layout_id')->unsigned();
+            $table->foreign('layout_id')
+                ->references('id')
+                ->on('layouts')
+                ->onDelete('cascade');
             $table->string('name');
-            $table->string('title');
-            $table->boolean('published');
+            $table->timestamps();
         });
     }
 
@@ -31,7 +32,6 @@ class Pages extends Migration
      */
     public function down()
     {
-        //
-        Schema::drop('pages');
+        Schema::dropIfExists('zones');
     }
 }

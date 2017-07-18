@@ -6,13 +6,9 @@ use Illuminate\Database\Eloquent\Model;
 
 class Content extends Model
 {
-
-
-    public $timestamps = false;
+    public $timestamps = true;
 
     //
-    protected $fillable = ['content'];
-
-
+    protected $fillable = ['zone', 'content'];
 
 }
