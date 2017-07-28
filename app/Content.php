@@ -9,6 +9,6 @@ class Content extends Model
     public $timestamps = true;
 
     //
-    protected $fillable = ['zone', 'content'];
+    protected $fillable = ['content'];
 
 }
