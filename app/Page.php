@@ -27,12 +27,4 @@ class Page extends Model
         return $this->hasMany('App\Metadata');
     }
 
-    /**
-    * Get the layout for the page.
-    */
-    public function layout()
-    {
-        return $this->hasOne('App\Layout');
-    }
-
 }
