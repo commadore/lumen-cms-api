@@ -24,18 +24,17 @@ $app->group(['prefix' => 'page/'], function ($app) {
     $app->delete('/{id}/','PagesController@destroy'); //delete single pages
 });
 
-$app->group(['prefix' => 'layout/'], function ($app) {
-    $app->get('/','LayoutsController@index'); //get all the layouts
-    $app->post('/','LayoutsController@store'); //store single layout
-    $app->get('/{id}/', 'LayoutsController@show'); //get single layout
-    $app->get('/name/{name}','LayoutsController@showByName'); //get layout by name
-    $app->put('/{id}/','LayoutsController@update'); //update single layout
-    $app->delete('/{id}/','LayoutsController@destroy'); //delete single layout
+$app->group(['prefix' => 'page/{id}'], function ($app) {
+    $app->get('/content/','ContentsController@index'); //get all the contents for a page
+    $app->post('/content','ContentsController@store'); //store single content
+    $app->get('/{contentid}/', 'ContentsController@show'); //get single content
+    $app->put('/{contentid}/','ContentsController@update'); //update single content
+    $app->delete('/{contentid}/','ContentsController@destroy'); //delete single content
 
-    $app->get('/{id}/zone','ZonesController@index'); //get all the zones for this layout
-    $app->post('/{id}/zone','ZonesController@store'); //store single zone
-    $app->get('/{id}/zone/{zoneid}/', 'ZonesController@show'); //get single zone
-    $app->get('/{id}/zone/name/{name}','ZonesController@showByName'); //get zone by name
-    $app->put('/{id}/zone/{zoneid}','ZonesController@update'); //update single zone
-    $app->delete('/{id}/zone/{zoneid}','ZonesController@destroy'); //delete single zone
+    $app->get('/metadata','MetadatasController@index'); //get all the zones for this layout
+    $app->post('/metadata','MetadatasController@store'); //store single zone
+    $app->get('/metadata/{metadataid}/', 'MetadatasController@show'); //get single zone
+    $app->get('/metadata/name/{name}','MetadatasController@showByName'); //get zone by name
+    $app->put('/metadata/{metadataid}','MetadatasController@update'); //update single zone
+    $app->delete('/metadata/{metadataid}','MetadatasController@destroy'); //delete single zone
 });

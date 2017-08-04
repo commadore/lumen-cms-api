@@ -3,16 +3,16 @@
 namespace App\Http\Controllers;
 
 use App\Content;
-use App\Http\Requests\PageRequest;
 use App\Layout;
 use App\Metadata;
+use App\Site;
 use Illuminate\Http\Request;
 use App\Page;
 
 class PagesController extends Controller
 {
     /**
-     * Display a listing of the resource.
+     * Display a listing of the Page.
      *
      * @return \Illuminate\Http\Response
      */
@@ -24,7 +24,7 @@ class PagesController extends Controller
     }
 
     /**
-     * Get the specified resource from storage.
+     * Get the specified Page from storage.
      *
      * @param  int  $id
      * @return \Illuminate\Http\Response
@@ -33,13 +33,16 @@ class PagesController extends Controller
     {
         //
         $page = Page::findOrfail($id);
-
+        $content = Content::where('page_id', $page->id)->get();
+        $metadata = Metadata::where('page_id', $page->id)->get();
+        $page->content = $content;
+        $page->metadata = $metadata;
         return response()->json($page);
 
     }
 
     /**
-     * Get the specified resource from storage.
+     * Get the specified Page from storage.
      *
      * @param  string  $route
      * @param Request $request
@@ -55,31 +58,29 @@ class PagesController extends Controller
     }
 
     /**
-     * Store a newly created resource in storage.
+     * Store a newly created Page in storage.
      *
-     * @param  PageRequest  $request
+     * @param  Request  $request
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
     {
         //
-        $site = Site::where('code', 'slotto')->first();
-        $layout = Layout::where('name', $request->json()->get('layout'))
-            ->where('site_id', $request->header('site'))->get();
+        $site = Site::where('code', $request->header('site'))->first();
 
         $page = new Page;
-        $page->site_id = $request->header('site');
+        $page->site_id = $site->id;
         $page->route = $request->json()->get('route');
         $page->name = $request->json()->get('name');
-        $page->layout_id = $layout->id;
+        $page->published = $request->json()->get('published');
         $page->save();
 
-        return response()->json(['status' => 'success']);
+        return response()->json($page);
         
     }
 
     /**
-     * Update the specified resource in storage.
+     * Update the specified Page in storage.
      *
      * @param  \Illuminate\Http\Request  $request
      * @param  int  $id
@@ -98,7 +99,7 @@ class PagesController extends Controller
     }
 
     /**
-     * Remove the specified resource from storage.
+     * Remove the specified Page from storage.
      *
      * @param  int  $id
      * @return \Illuminate\Http\Response

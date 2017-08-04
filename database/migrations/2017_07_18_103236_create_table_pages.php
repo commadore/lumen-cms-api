@@ -17,11 +17,13 @@ class CreateTablePages extends Migration
         Schema::create('pages', function (Blueprint $table) {
             $table->increments('id');
             $table->string('route')->unique();
+            $table->integer('site_id')->unsigned();
             $table->string('name');
-            $table->integer('layout_id')->unsigned();
-            $table->foreign('layout_id')
+
+            $table->foreign('site_id')
                 ->references('id')
-                ->on('layouts');
+                ->on('sites');
+
             $table->boolean('published');
             $table->timestamps();
         });

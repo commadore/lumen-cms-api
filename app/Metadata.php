@@ -11,5 +11,6 @@ class Metadata extends Model
     public $timestamps = false;
 
     //
-    protected $fillable = ['name', 'value'];
+    protected $fillable = ['page_id','key', 'value'];
+    protected $table = 'metadatas';
 }
