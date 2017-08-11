@@ -37,7 +37,7 @@ class PagesController extends Controller
         $metadata = Metadata::where('page_id', $page->id)->get();
         $page->content = $content;
         $page->metadata = $metadata;
-        return response()->json($page);
+        return response()->json($page, JSON_UNESCAPED_SLASHES);
 
     }
 
