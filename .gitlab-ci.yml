@@ -61,7 +61,7 @@ test:
 
 deploy:
   stage: deploy
-  image: edbizarro/gitlab-ci-pipeline-php:7.1
+  image: commadore/gitlab-ci-pipeline-php:develop
   script:
     - apt-get install rsync -yqq
     - pwd
