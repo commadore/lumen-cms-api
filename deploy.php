@@ -24,7 +24,7 @@ task('deploy', [
 set('ssh_type', 'native');
 set('ssh_multiplexing', false);
 
-add('shared_files', []);
+set('shared_files', []);
 add('shared_dirs', [
     'challenges'
 ]);

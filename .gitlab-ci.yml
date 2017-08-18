@@ -66,7 +66,7 @@ deploy:
     - apt-get install rsync -yqq
     - pwd
     - ls -lsa
-    - echo -e "hello" > .env
+    - echo $ENV_FILE > .env
     - ./vendor/bin/dep deploy production -vv
   environment:
     name: testing
