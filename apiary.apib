@@ -1,0 +1,116 @@
+FORMAT: 1A
+HOST: http://content.apiblueprint.org/
+
+# Content API
+
+Content is a simple API allowing consumers to CRUD content.
+
+# /pages
+## GET
+    + Headers
+    
+        sitecode: slotto
+
++ Response 200 (application/json)
+
+        [
+            {
+                "id": 1,
+                "route": "blog/hello",
+                "layout": "single-column",
+                "contents" : [{
+                    "header" : "html",
+                    "main" : "html",
+                    "footer" :"html"
+                }]
+            }
+        ]
++ Response 403
++ Response 404
+
+# /pages/{id}
+## GET
+    + Parameters
+        + id (int) the id of the page
+        + Headers
+    
+            sitecode: slotto
+            
++ Response 200 (application/json)       
+    
+        {
+            "id": 1,
+            "route": "blog/hello",
+            "layout": "single-column",
+            "contents" : [{
+                "header" : "html",
+                "main" : "html",
+                "footer" :"html"
+            }],
+            "published" : true
+        }
+
++ Response 403
++ Response 404
+
+## PUT
+    + Parameters
+        + id (int) the id of the page
+        + Headers
+    
+            sitecode: slotto
+    + Body
+        {
+                "id" : 1,
+                "route": "blog/goodbye",
+                "name" : "Blog Page 2",
+                "layout": 2,
+                "published" : true
+        }
++ Response 200 (application/json)       
+    
+            {
+                "id": 1,
+                "route": "blog/hello",
+                "name" : "Blog Page",
+                "layout": "single-column",
+                "contents" : [{
+                    "header" : "html",
+                    "main" : "html",
+                    "footer" :"html"
+                }],
+                "published" : true
+            }
++ Response 403
++ Response 404
+
+## POST 
+    + Parameters
+        + id (int) the id of the page
+        + Headers
+    
+            sitecode: slotto
+    + Body
+        {
+                "route": "blog/hello",
+                "name" : "Blog Page",
+                "layout": 1,
+                "published" : false
+        }
++ Response 201
+    + Headers
+    
+            Location: pages/1
+        
++ Response 403
++ Response 404
+
+## DELETE
+    + Parameters
+        + id (int) the id of the page
+        + Headers
+    
+            sitecode: slotto
++ Response 204
++ Response 403
++ Response 404
